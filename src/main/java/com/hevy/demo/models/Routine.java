@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -28,6 +30,7 @@ public class Routine {
     @Column(name = "routine_name", nullable = false)
     private String routineName;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -41,6 +44,7 @@ public class Routine {
     @Column(name = "deleted_at", nullable = true)
     private Instant deletedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "routine")
     private List<Workout> workouts = new ArrayList<>();
 }
