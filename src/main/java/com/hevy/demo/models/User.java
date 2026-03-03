@@ -10,7 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -33,14 +32,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Lob
-    @Column(name = "profile_img")
-    private Byte[] profileImage;
+    @Column(name = "profile_img", columnDefinition = "bytea")
+    private byte[] profileImage;
 
-    @Column(nullable = false)
+    @Column(name = "followers", nullable = false)
     private Integer followers;
 
-    @Column(nullable = false)
+    @Column(name = "following", nullable = false)
     private Integer following;
 
     @Column(nullable = false)

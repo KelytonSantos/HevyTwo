@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -30,9 +29,8 @@ public class Workout {
     @Column(name = "workout_name", nullable = false)
     private String workoutName;
 
-    @Lob
-    @Column(name = "workout_image")
-    private Byte[] workoutImage;
+    @Column(name = "workout_image", columnDefinition = "bytea")
+    private byte[] workoutImage;
 
     @Column(name = "rest_time")
     private Instant restTime;
