@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,12 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()).cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/images/**", "/geo/reverse").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/org/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/org/*/events").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/org/*/follow").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/org/*/unfollow").authenticated()
-                        .requestMatchers("/org/**").hasRole("ORGANIZATION")
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
