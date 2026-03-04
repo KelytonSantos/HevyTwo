@@ -10,15 +10,16 @@ import com.hevy.demo.controller.dtos.Exercise;
 @Service
 public class ExerciseService {
 
+    private static final int DEFAULT_LIMIT = 5;
+
     private final ExerciseDBClient exerciseDbClient;
 
     public ExerciseService(ExerciseDBClient exerciseDbClient) {
         this.exerciseDbClient = exerciseDbClient;
     }
 
-    public List<Exercise> getExercisesByPage(int page, int size) {
-        int offset = (page - 1) * size;
-        return exerciseDbClient.fetchExercises(size, offset);
+    public List<Exercise> getExercisesByOffset(int offset) {
+        return exerciseDbClient.fetchExercises(DEFAULT_LIMIT, offset);
     }
 
     public Exercise getExerciseById(String exerciseId) {
