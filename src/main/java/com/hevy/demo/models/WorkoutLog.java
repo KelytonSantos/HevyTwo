@@ -34,6 +34,6 @@ public class WorkoutLog {
     @Column(name = "workout_name")
     private String workoutName;
 
-    @Column(name = "workout_image", columnDefinition = "bytea")
-    private byte[] workoutImage;
+    @Column(name = "workout_image")
+    private String workoutImage;
 }

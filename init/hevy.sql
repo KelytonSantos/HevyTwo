@@ -59,7 +59,7 @@ CREATE TABLE "workout_logs" (
   "execution_id" uuid,
   "exercise_api_id" integer,
   "workout_name" varchar,
-  "workout_image" bytea
+  "workout_image" varchar
 );
 
 CREATE TABLE "workout_sets" (
