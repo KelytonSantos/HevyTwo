@@ -60,7 +60,7 @@ public class WorkoutController {
         return ResponseEntity.created(uri).body(routineWorkout);
     }
 
-    @GetMapping("/my/{routineWorkoutId}")
+    @GetMapping("/my/routine/{routineWorkoutId}")
     public ResponseEntity<List<RoutineWorkout>> getRoutineWorkout(@PathVariable UUID routineWorkoutId) {
 
         return ResponseEntity.ok().body(routineWorkoutService.getRoutineWorkout(routineWorkoutId));
