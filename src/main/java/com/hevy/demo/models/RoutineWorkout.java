@@ -29,10 +29,13 @@ public class RoutineWorkout {
     private Routine routine;
 
     @Column(name = "exercise_api_id")
-    private Integer exerciseApiId;
+    private String exerciseApiId;
 
     @Column(name = "workout_name")
     private String workoutName;
+
+    @Column(name = "workout_image")
+    private String workoutImage;
 
     @Column(name = "rest_time_seconds")
     private Integer restTimeSeconds;

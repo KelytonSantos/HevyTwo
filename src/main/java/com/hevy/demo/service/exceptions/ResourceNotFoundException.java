@@ -2,7 +2,7 @@ package com.hevy.demo.service.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    ResourceNotFoundException(String msg) {
+    public ResourceNotFoundException(String msg) {
         super(msg);
     }
 

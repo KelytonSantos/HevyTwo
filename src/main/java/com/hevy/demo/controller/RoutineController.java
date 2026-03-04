@@ -34,7 +34,7 @@ public class RoutineController {
     public ResponseEntity<RoutineResponse> getAllMyRoutines(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok().body(routineService.geAll(user));
+        return ResponseEntity.ok().body(routineService.getAll(user));
     }
 
     @PostMapping

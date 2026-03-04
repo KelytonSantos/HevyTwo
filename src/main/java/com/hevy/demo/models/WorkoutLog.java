@@ -34,6 +34,9 @@ public class WorkoutLog {
     @Column(name = "workout_name")
     private String workoutName;
 
-    @Column(name = "workout_image")
+    @Column(name = "workout_image", length = 255)
     private String workoutImage;
+
+    @Column(name = "description")
+    private String description;
 }

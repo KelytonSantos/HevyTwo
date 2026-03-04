@@ -37,8 +37,9 @@ CREATE TABLE "routines" (
 CREATE TABLE "routine_workouts" (
   "id" uuid PRIMARY KEY,
   "routine_id" uuid,
-  "exercise_api_id" integer,
+  "exercise_api_id" varchar,
   "workout_name" varchar,
+  "workout_image" varchar,
   "rest_time_seconds" integer,
   "order_index" integer
 );
@@ -59,7 +60,8 @@ CREATE TABLE "workout_logs" (
   "execution_id" uuid,
   "exercise_api_id" integer,
   "workout_name" varchar,
-  "workout_image" varchar
+  "workout_image" varchar,
+  "description" varchar
 );
 
 CREATE TABLE "workout_sets" (
