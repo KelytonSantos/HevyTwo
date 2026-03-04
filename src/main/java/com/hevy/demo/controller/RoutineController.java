@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.hevy.demo.controller.dtos.AuthResponse;
 import com.hevy.demo.controller.dtos.RoutineRequest;
 import com.hevy.demo.controller.dtos.RoutineResponse;
 import com.hevy.demo.models.Routine;

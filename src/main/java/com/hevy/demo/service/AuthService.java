@@ -34,13 +34,13 @@ public class AuthService {
         user.setEmail(request.email());
         user.setFollowers(0);
         user.setFollowing(0);
-        user.setWorkouts(0);
+        user.setWorkoutsCount(0);
         user.setPassword(passwordEncoder.encode(request.password()));
 
         User userSaved = userRepository.save(user);
 
         return new AuthResponse(userSaved.getId(), userSaved.getUsername(), userSaved.getFollowers(),
-                userSaved.getFollowing(), userSaved.getWorkouts(), userSaved.getProfileImage(),
+                userSaved.getFollowing(), userSaved.getWorkoutsCount(), userSaved.getProfileImage(),
                 userSaved.getCreatedAt(), jwtService.generateToken(userSaved));
 
     }
@@ -54,7 +54,7 @@ public class AuthService {
         }
 
         return new AuthResponse(user.getId(), user.getUsername(), user.getFollowers(),
-                user.getFollowing(), user.getWorkouts(), user.getProfileImage(),
+                user.getFollowing(), user.getWorkoutsCount(), user.getProfileImage(),
                 user.getCreatedAt(), jwtService.generateToken(user));
 
     }

@@ -42,14 +42,14 @@ public class User implements UserDetails {
     @Column(name = "profile_img", columnDefinition = "bytea")
     private byte[] profileImage;
 
-    @Column(name = "followers", nullable = false)
+    @Column(name = "followers")
     private Integer followers;
 
-    @Column(name = "following", nullable = false)
+    @Column(name = "following")
     private Integer following;
 
-    @Column(nullable = false)
-    private Integer workouts;
+    @Column(name = "workouts_count")
+    private Integer workoutsCount;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;

@@ -1,6 +1,5 @@
 package com.hevy.demo.models;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,8 +16,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "workouts")
-public class Workout {
+@Table(name = "workout_logs")
+public class WorkoutLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,16 +25,15 @@ public class Workout {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "routine_id")
-    private Routine routine;
+    @JoinColumn(name = "execution_id")
+    private RoutineExecution execution;
 
-    @Column(name = "workout_name", nullable = false)
+    @Column(name = "exercise_api_id")
+    private Integer exerciseApiId;
+
+    @Column(name = "workout_name")
     private String workoutName;
 
     @Column(name = "workout_image", columnDefinition = "bytea")
     private byte[] workoutImage;
-
-    @Column(name = "rest_time")
-    private Instant restTime;
-
 }

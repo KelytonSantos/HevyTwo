@@ -32,7 +32,7 @@ public class Routine {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "created_at", nullable = false)
@@ -46,5 +46,5 @@ public class Routine {
 
     @JsonIgnore
     @OneToMany(mappedBy = "routine")
-    private List<Workout> workouts = new ArrayList<>();
+    private List<RoutineWorkout> workouts = new ArrayList<>();
 }
