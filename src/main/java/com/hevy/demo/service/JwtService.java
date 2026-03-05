@@ -17,25 +17,25 @@ public class JwtService {
     private String secret;
 
     public String generateToken(User user) {
-        String username = user.getUsername();
-        if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("User username must be defined to generate a JWT token");
+        String email = user.getEmail();
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("User email must be defined to generate a JWT token");
         }
 
         long expirationMillis = 1000L * 60 * 60 * 24 * 30;
         Date expiresAt = new Date(System.currentTimeMillis() + expirationMillis);
 
         return JWT.create()
-                .withSubject(username)
+                .withSubject(email)
                 .withExpiresAt(expiresAt)
                 .sign(Algorithm.HMAC256(secret));
     }
 
     public String validateToken(String token) {
-        return extractUsername(token);
+        return extractEmail(token);
     }
 
-    private String extractUsername(String token) {
+    private String extractEmail(String token) {
         try {
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(secret))
                     .build()
