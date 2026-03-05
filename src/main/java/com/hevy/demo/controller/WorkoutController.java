@@ -33,7 +33,7 @@ public class WorkoutController {
     @Autowired
     private RoutineWorkoutService routineWorkoutService;
 
-    @GetMapping("/{exerciseId}")
+    @GetMapping("/api/exercise/bd/{exerciseId}")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable @NotNull String exerciseId)
             throws IOException, InterruptedException {
 
@@ -52,12 +52,20 @@ public class WorkoutController {
             Authentication authentication) {
 
         Exercise exercise = exerciseService.getExerciseById(exerciseId);
-        RoutineWorkout routineWorkout = routineWorkoutService.createRoutineWorkout(routineId, exercise);
+        String description = formatDescription(exercise);
+        RoutineWorkout routineWorkout = routineWorkoutService.createRoutineWorkout(routineId, exercise, description);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(routineWorkout.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(routineWorkout);
+    }
+
+    private String formatDescription(Exercise exercise) {
+        if (exercise == null || exercise.instructions() == null) {
+            return null;
+        }
+        return String.join("\n", exercise.instructions());
     }
 
     @GetMapping("/my/routine/{routineWorkoutId}")

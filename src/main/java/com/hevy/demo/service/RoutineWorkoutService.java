@@ -20,7 +20,7 @@ public class RoutineWorkoutService {
     @Autowired
     private RoutineService routineService;
 
-    public RoutineWorkout createRoutineWorkout(UUID routineId, Exercise exercise) {
+    public RoutineWorkout createRoutineWorkout(UUID routineId, Exercise exercise, String description) {
         RoutineWorkout routineWorkout = new RoutineWorkout();
 
         Routine routine = routineService.getRoutineById(routineId);
@@ -31,8 +31,20 @@ public class RoutineWorkoutService {
         routineWorkout.setRestTimeSeconds(null);
         routineWorkout.setOrderIndex(null);
         routineWorkout.setWorkoutImage(exercise.gifUrl());
+        routineWorkout.setDescription(description != null ? description : formatDescription(exercise));
 
         return routineWorkoutRepository.save(routineWorkout);
+    }
+
+    public RoutineWorkout createRoutineWorkout(UUID routineId, Exercise exercise) {
+        return createRoutineWorkout(routineId, exercise, null);
+    }
+
+    private String formatDescription(Exercise exercise) {
+        if (exercise == null || exercise.instructions() == null) {
+            return null;
+        }
+        return String.join("\n", exercise.instructions());
     }
 
     public List<RoutineWorkout> getRoutineWorkout(UUID routineId) {

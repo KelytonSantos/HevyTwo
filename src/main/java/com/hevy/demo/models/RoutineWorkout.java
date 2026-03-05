@@ -37,6 +37,9 @@ public class RoutineWorkout {
     @Column(name = "workout_image")
     private String workoutImage;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "rest_time_seconds")
     private Integer restTimeSeconds;
 

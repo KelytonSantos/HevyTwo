@@ -30,6 +30,9 @@ public class RoutineService {
     @Autowired
     private RoutineExecutionRepository routineExecutionRepository;
 
+    @Autowired
+    private WorkoutService workoutService;
+
     public RoutineResponse getAll(User user) {
         List<Routine> list = routineRepository.findAllByUser(user);
 
@@ -71,7 +74,10 @@ public class RoutineService {
         routineExecution.setStatus(StatusType.PENDING);
         routineExecution.setTotalWeightVolume(BigDecimal.valueOf(0, 0));
 
-        return routineExecutionRepository.save(routineExecution);
+        RoutineExecution routineExecutionSaved = routineExecutionRepository.save(routineExecution);
+        workoutService.createWorkoutLog(routineExecutionSaved.getId());
+
+        return routineExecutionSaved;
     }
 
     public RoutineExecution finishRoutineExecution(UUID routineExecutionId) {
@@ -94,4 +100,5 @@ public class RoutineService {
 // o peso total do routine execution é atualizado apartir de cada finalização de
 // workoutset
 
-// validar no front se tem ou n exercicio feito ou added
+// validar no front se tem ou n exercicio feito
+// *added implementado */

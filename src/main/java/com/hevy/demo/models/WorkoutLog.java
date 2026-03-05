@@ -29,7 +29,7 @@ public class WorkoutLog {
     private RoutineExecution execution;
 
     @Column(name = "exercise_api_id")
-    private Integer exerciseApiId;
+    private String exerciseApiId;
 
     @Column(name = "workout_name")
     private String workoutName;
