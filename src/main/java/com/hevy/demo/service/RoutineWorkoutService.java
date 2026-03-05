@@ -10,6 +10,8 @@ import com.hevy.demo.controller.dtos.Exercise;
 import com.hevy.demo.models.Routine;
 import com.hevy.demo.models.RoutineWorkout;
 import com.hevy.demo.repository.RoutineWorkoutRepository;
+import com.hevy.demo.repository.RoutineRepository;
+import com.hevy.demo.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class RoutineWorkoutService {
@@ -18,12 +20,13 @@ public class RoutineWorkoutService {
     private RoutineWorkoutRepository routineWorkoutRepository;
 
     @Autowired
-    private RoutineService routineService;
+    private RoutineRepository routineRepository;
 
     public RoutineWorkout createRoutineWorkout(UUID routineId, Exercise exercise, String description) {
         RoutineWorkout routineWorkout = new RoutineWorkout();
 
-        Routine routine = routineService.getRoutineById(routineId);
+        Routine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new ResourceNotFoundException("Routine not found"));
 
         routineWorkout.setExerciseApiId(exercise.exerciseId());
         routineWorkout.setRoutine(routine);
