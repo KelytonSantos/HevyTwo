@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hevy.demo.controller.dtos.RoutineRequest;
 import com.hevy.demo.controller.dtos.RoutineResponse;
@@ -57,6 +59,10 @@ public class RoutineService {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new ResourceNotFoundException("Routine not found"));
 
+        if (routine.getWorkouts().isEmpty() || routine.getWorkouts() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine is empty or null");
+        }
+
         RoutineExecution routineExecution = new RoutineExecution();
 
         routineExecution.setRoutine(routine);
@@ -87,3 +93,5 @@ public class RoutineService {
 
 // o peso total do routine execution é atualizado apartir de cada finalização de
 // workoutset
+
+// validar no front se tem ou n exercicio feito ou added
