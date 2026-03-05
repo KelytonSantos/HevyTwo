@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.hevy.demo.models.RoutineExecution;
 import com.hevy.demo.models.RoutineWorkout;
 import com.hevy.demo.models.WorkoutLog;
+import com.hevy.demo.models.enums.StatusType;
 import com.hevy.demo.repository.RoutineExecutionRepository;
 import com.hevy.demo.repository.WorkoutLogRepository;
 
@@ -46,6 +47,18 @@ public class WorkoutService {
         }).collect(Collectors.toList());
 
         return workoutLogRepository.saveAll(workoutLogs);
+    }
+
+    public List<WorkoutLog> getWorkoutLog(UUID routineExecutionId) {
+        RoutineExecution routineExecution = routineExecutionRepository.findById(routineExecutionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Execução não encontrada"));
+
+        if (!routineExecution.getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This workout session has already been finished or canceled.");
+        }
+
+        return workoutLogRepository.findAllByExecutionId(routineExecutionId);
     }
 
 }

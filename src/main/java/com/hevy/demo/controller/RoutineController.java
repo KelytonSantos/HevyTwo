@@ -34,7 +34,7 @@ public class RoutineController {
         return "alo porteiro";
     }
 
-    @GetMapping
+    @GetMapping // todas as rotinas
     public ResponseEntity<RoutineResponse> getAllMyRoutines(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 

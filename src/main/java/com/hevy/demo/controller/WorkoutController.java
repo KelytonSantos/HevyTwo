@@ -18,8 +18,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hevy.demo.controller.dtos.Exercise;
 import com.hevy.demo.models.RoutineWorkout;
+import com.hevy.demo.models.WorkoutLog;
 import com.hevy.demo.service.ExerciseService;
 import com.hevy.demo.service.RoutineWorkoutService;
+import com.hevy.demo.service.WorkoutService;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -32,6 +34,9 @@ public class WorkoutController {
 
     @Autowired
     private RoutineWorkoutService routineWorkoutService;
+
+    @Autowired
+    private WorkoutService workoutService;
 
     @GetMapping("/api/exercise/bd/{exerciseId}")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable @NotNull String exerciseId)
@@ -68,10 +73,18 @@ public class WorkoutController {
         return String.join("\n", exercise.instructions());
     }
 
-    @GetMapping("/my/routine/{routineWorkoutId}")
+    @GetMapping("/my/routine/{routineWorkoutId}") // todos os exercicios de uma rotina
     public ResponseEntity<List<RoutineWorkout>> getRoutineWorkout(@PathVariable UUID routineWorkoutId) {
 
         return ResponseEntity.ok().body(routineWorkoutService.getRoutineWorkout(routineWorkoutId));
+    }
+
+    @GetMapping("/my/{routineExecutionId}") // todos os exercicios daquela routine execution (em aberto, so pode haver
+                                            // um em aberto)
+    public ResponseEntity<List<WorkoutLog>> getMyWorkout(@PathVariable UUID routineExecutionId) {
+        List<WorkoutLog> logs = workoutService.getWorkoutLog(routineExecutionId);
+
+        return ResponseEntity.ok(logs);
     }
 
 }
