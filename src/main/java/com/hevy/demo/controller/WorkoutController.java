@@ -11,14 +11,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hevy.demo.controller.dtos.Exercise;
+import com.hevy.demo.controller.dtos.WorkoutSetRequest;
 import com.hevy.demo.models.RoutineWorkout;
 import com.hevy.demo.models.WorkoutLog;
+import com.hevy.demo.models.WorkoutSet;
 import com.hevy.demo.service.ExerciseService;
 import com.hevy.demo.service.RoutineWorkoutService;
 import com.hevy.demo.service.WorkoutService;
@@ -87,4 +90,17 @@ public class WorkoutController {
         return ResponseEntity.ok(logs);
     }
 
+    @PostMapping("/init/{workoutLogId}")
+    public ResponseEntity<WorkoutSet> createWorkoutSet(@PathVariable UUID workoutLogId,
+            @RequestBody WorkoutSetRequest workoutSetRequest) {
+
+        WorkoutSet workoutSet = workoutService.createWorkoutSet(workoutLogId, workoutSetRequest);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(workoutSet.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(workoutSet);
+    }
 }
