@@ -103,4 +103,28 @@ public class WorkoutController {
 
         return ResponseEntity.created(uri).body(workoutSet);
     }
+
+    @PostMapping("/set/{workoutSetId}/finish")
+    public ResponseEntity<WorkoutSet> finishWorkoutSet(@PathVariable UUID workoutSetId) {
+        WorkoutSet workoutSet = workoutService.finishWorkoutSet(workoutSetId);
+
+        return ResponseEntity.ok(workoutSet);
+    }
+
+    @PostMapping("/set/{workoutSetId}/cancel")
+    public ResponseEntity<WorkoutSet> cancelWorkoutSet(@PathVariable UUID workoutSetId) {
+        WorkoutSet workoutSet = workoutService.cancelWorkoutSet(workoutSetId);
+
+        return ResponseEntity.ok(workoutSet);
+    }
+
+    @GetMapping("/set/log/{workoutLogId}/pending")
+    public ResponseEntity<List<WorkoutSet>> getPendingWorkoutSets(@PathVariable UUID workoutLogId) {
+        return ResponseEntity.ok(workoutService.getPendingWorkoutSets(workoutLogId));
+    }
+
+    @GetMapping("/set/log/{workoutLogId}")
+    public ResponseEntity<List<WorkoutSet>> getAllWorkoutSets(@PathVariable UUID workoutLogId) {
+        return ResponseEntity.ok(workoutService.getAllWorkoutSets(workoutLogId));
+    }
 }

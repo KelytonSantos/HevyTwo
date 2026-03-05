@@ -95,6 +95,67 @@ public class WorkoutService {
         return workoutSetRepository.save(workoutSet);
     }
 
+    public WorkoutSet finishWorkoutSet(UUID workoutSetId) {
+        WorkoutSet workoutSet = workoutSetRepository.findById(workoutSetId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Workout set not found"));
+
+        if (!workoutSet.getWorkoutLog().getExecution().getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The execution session of the parent process routine has already been completed or canceled.");
+        }
+
+        if (!workoutSet.getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This workout set has already been finished or canceled.");
+        }
+
+        workoutSet.setEndAt(Instant.now());
+        workoutSet.setStatus(StatusType.COMPLETED);
+
+        return workoutSetRepository.save(workoutSet);
+    }
+
+    public WorkoutSet cancelWorkoutSet(UUID workoutSetId) {
+        WorkoutSet workoutSet = workoutSetRepository.findById(workoutSetId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Workout set not found"));
+
+        if (!workoutSet.getWorkoutLog().getExecution().getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The execution session of the parent process routine has already been completed or canceled.");
+        }
+
+        if (!workoutSet.getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This workout set has already been finished or canceled.");
+        }
+
+        workoutSet.setEndAt(Instant.now());
+        workoutSet.setStatus(StatusType.CANCELED);
+
+        return workoutSetRepository.save(workoutSet);
+    }
+
+    public List<WorkoutSet> getPendingWorkoutSets(UUID workoutLogId) {
+        WorkoutLog log = workoutLogRepository.findById(workoutLogId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Workout Log id not found"));
+
+        if (!log.getExecution().getStatus().equals(StatusType.PENDING)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The execution session of the parent process routine has already been completed or canceled.");
+        }
+
+        return workoutSetRepository.findAllByWorkoutLogIdAndStatus(workoutLogId, StatusType.PENDING);
+    }
+
+    public List<WorkoutSet> getAllWorkoutSets(UUID workoutLogId) {
+        WorkoutLog log = workoutLogRepository.findById(workoutLogId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Workout Log id not found"));
+
+        return workoutSetRepository.findAllByWorkoutLogId(log.getId());
+    }
+
 }
 
 // ao startar uma rotina eu gero direto um workout log baseado em todos os
