@@ -64,6 +64,6 @@ public class WorkoutController {
     public ResponseEntity<List<RoutineWorkout>> getRoutineWorkout(@PathVariable UUID routineWorkoutId) {
 
         return ResponseEntity.ok().body(routineWorkoutService.getRoutineWorkout(routineWorkoutId));
-
     }
+
 }
