@@ -42,24 +42,25 @@ public class WorkoutController {
     private WorkoutService workoutService;
 
     @GetMapping("/api/exercise/bd/{exerciseId}")
-    public ResponseEntity<Exercise> getExerciseById(@PathVariable @NotNull String exerciseId)
-            throws IOException, InterruptedException {
+    public ResponseEntity<Exercise> getExerciseById(@PathVariable @NotNull String exerciseId,
+            Authentication authentication) throws IOException, InterruptedException {
 
-        return ResponseEntity.ok().body(exerciseService.getExerciseById(exerciseId));
+        return ResponseEntity.ok().body(exerciseService.getExerciseById(exerciseId, authentication));
     }
 
-    @GetMapping
+    @GetMapping("/api/exercise/bd")
     public ResponseEntity<List<Exercise>> getAllExercise(
-            @RequestParam(name = "offset", defaultValue = "0") int offset) {
+            @RequestParam(name = "offset", defaultValue = "0") int offset,
+            Authentication authentication) {
 
-        return ResponseEntity.ok().body(exerciseService.getExercisesByOffset(offset));
+        return ResponseEntity.ok().body(exerciseService.getExercisesByOffset(offset, authentication));
     }
 
     @PostMapping("/{exerciseId}/{routineId}")
     public ResponseEntity<RoutineWorkout> createWorkout(@PathVariable String exerciseId, @PathVariable UUID routineId,
             Authentication authentication) {
 
-        Exercise exercise = exerciseService.getExerciseById(exerciseId);
+        Exercise exercise = exerciseService.getExerciseById(exerciseId, authentication);
         String description = formatDescription(exercise);
         RoutineWorkout routineWorkout = routineWorkoutService.createRoutineWorkout(routineId, exercise, description);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
