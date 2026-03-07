@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,11 @@ public class RoutineController {
         return ResponseEntity.ok().body(routineService.getAll(user));
     }
 
+    @GetMapping("/{routineId}")
+    public ResponseEntity<Routine> getRoutineById(@PathVariable UUID routineId) {
+        return ResponseEntity.ok(routineService.getRoutineById(routineId));
+    }
+
     @PostMapping
     public ResponseEntity<Routine> createRoutine(@RequestBody RoutineRequest routineRequest,
             Authentication authentication) {
@@ -73,6 +79,13 @@ public class RoutineController {
     public ResponseEntity<RoutineExecution> finishRoutineExecution(@PathVariable UUID routineExecutionId) {
 
         return ResponseEntity.ok(routineService.finishRoutineExecution(routineExecutionId));
+    }
+
+    @DeleteMapping("/{routineId}")
+    public ResponseEntity<Void> deleteRoutine(@PathVariable UUID routineId) {
+
+        routineService.delete(routineId);
+        return ResponseEntity.noContent().build();
     }
 
 }

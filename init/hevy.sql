@@ -99,6 +99,17 @@ COMMENT ON COLUMN "workout_sets"."measure" IS 'Peso utilizado';
 
 COMMENT ON COLUMN "workout_sets"."rest_time_actual" IS 'Quanto tempo de descanso ele realmente fez';
 
+CREATE TABLE "routine_workout_sets" (
+  "id" uuid PRIMARY KEY,
+  "routine_workout_id" uuid,
+  "set_type" series_type DEFAULT 'normal_set',
+  "measure" decimal(5,2),
+  "unit" varchar(10),
+  "repetitions" integer,
+  "order_index" integer,
+  "rest_time" integer
+);
+
 ALTER TABLE "routines" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE "routine_workouts" ADD FOREIGN KEY ("routine_id") REFERENCES "routines" ("id") DEFERRABLE INITIALLY IMMEDIATE;
@@ -110,3 +121,5 @@ ALTER TABLE "routines_executions" ADD FOREIGN KEY ("user_id") REFERENCES "users"
 ALTER TABLE "workout_logs" ADD FOREIGN KEY ("execution_id") REFERENCES "routines_executions" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE "workout_sets" ADD FOREIGN KEY ("workout_log_id") REFERENCES "workout_logs" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "routine_workout_sets" ADD FOREIGN KEY ("routine_workout_id") REFERENCES "routine_workouts" ("id") DEFERRABLE INITIALLY IMMEDIATE;

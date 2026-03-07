@@ -3,6 +3,7 @@ package com.hevy.demo.service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hevy.demo.controller.dtos.RoutineComposition;
 import com.hevy.demo.controller.dtos.RoutineRequest;
 import com.hevy.demo.controller.dtos.RoutineResponse;
 import com.hevy.demo.models.Routine;
@@ -33,10 +35,22 @@ public class RoutineService {
     @Autowired
     private WorkoutService workoutService;
 
+    // public record RoutineResponse(UUID userId, Integer totalRoutines,
+    // List<RoutineComposition> routines) {
+
     public RoutineResponse getAll(User user) {
         List<Routine> list = routineRepository.findAllByUser(user);
+        int totalRoutines = list.size();
 
-        return new RoutineResponse(user.getId(), list);
+        List<RoutineComposition> routineCompositionList = new ArrayList<>();
+
+        for (Routine r : list) {
+            int totalWorkoutsInRoutine = r.getWorkouts().size();
+            RoutineComposition rc = new RoutineComposition(r.getId(), r.getRoutineName(), totalWorkoutsInRoutine);
+            routineCompositionList.add(rc);
+        }
+
+        return new RoutineResponse(user.getId(), totalRoutines, routineCompositionList);
     }
 
     public Routine getRoutineById(UUID routineId) {
@@ -93,6 +107,16 @@ public class RoutineService {
         routineExecution.setStatus(StatusType.COMPLETED);
 
         return routineExecutionRepository.save(routineExecution);
+    }
+
+    public void delete(UUID routineId) {
+        Routine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new ResourceNotFoundException("Routine not found"));
+
+        routine.setDeletedAt(Instant.now());
+
+        routineRepository.save(routine);
+
     }
 
 }
