@@ -19,4 +19,11 @@ public interface WorkoutSetRepository extends JpaRepository<WorkoutSet, UUID> {
     List<WorkoutSet> findAllByWorkoutLogIdAndStatus(@Param("workoutLogId") UUID workoutLogId,
             @Param("status") StatusType status);
 
+    @Query(value = """
+            SELECT ws.* FROM workout_sets ws
+            WHERE ws.workout_log_id IN :workoutLogIds
+            AND ws.status = 'completed'
+            """, nativeQuery = true)
+    List<WorkoutSet> findAllByListOfWorkoutLogId(@Param("workoutLogIds") List<UUID> workoutLogIds);
+
 }

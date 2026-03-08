@@ -1,6 +1,7 @@
 package com.hevy.demo.models;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,4 +55,13 @@ public class RoutineWorkoutSet {
 
     @Column(name = "rest_time")
     private Integer restTime;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = true)
+    private Instant updatedAt;
+
+    @Column(name = "deleted_at", nullable = true)
+    private Instant deletedAt;
 }

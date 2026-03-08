@@ -19,6 +19,7 @@ import com.hevy.demo.models.enums.StatusType;
 import com.hevy.demo.repository.RoutineExecutionRepository;
 import com.hevy.demo.repository.WorkoutLogRepository;
 import com.hevy.demo.repository.WorkoutSetRepository;
+import com.hevy.demo.service.exceptions.ResourceIsEmptyExeception;
 
 @Service
 public class WorkoutService {
@@ -50,6 +51,7 @@ public class WorkoutService {
             log.setWorkoutName(rw.getWorkoutName());
             log.setWorkoutImage(rw.getWorkoutImage());
             log.setDescription(rw.getDescription());
+            log.setCreatedAt(Instant.now());
             return log;
         }).collect(Collectors.toList());
 
@@ -154,6 +156,30 @@ public class WorkoutService {
                         "Workout Log id not found"));
 
         return workoutSetRepository.findAllByWorkoutLogId(log.getId());
+    }
+
+    public List<WorkoutLog> findAllByMonth(List<UUID> routineExecutionId) {
+        if (routineExecutionId.isEmpty()) {
+            throw new ResourceIsEmptyExeception("List of Routine Execution id is empty");
+        }
+
+        List<WorkoutLog> workoutLogsMonth = workoutLogRepository.findAllByMonth(routineExecutionId);
+
+        return workoutLogsMonth;
+    }
+
+    public List<WorkoutLog> findAllByLastMonth(List<UUID> routineExecutionId) {
+        if (routineExecutionId.isEmpty()) {
+            throw new ResourceIsEmptyExeception("List of Routine Execution id is empty");
+        }
+
+        List<WorkoutLog> workoutLogsLastMonth = workoutLogRepository.findAllByLastMonth(routineExecutionId);
+
+        return workoutLogsLastMonth;
+    }
+
+    public List<WorkoutSet> findAllByListOfWorkoutLogId(List<UUID> workoutLogIds) {
+        return workoutSetRepository.findAllByListOfWorkoutLogId(workoutLogIds);
     }
 
 }

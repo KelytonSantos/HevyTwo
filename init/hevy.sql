@@ -62,7 +62,10 @@ CREATE TABLE "workout_logs" (
   "exercise_api_id" varchar,
   "workout_name" varchar,
   "workout_image" varchar,
-  "description" varchar
+  "description" varchar,
+  "created_at" timestamptz NOT NULL,
+  "updated_at" timestamptz,
+  "deleted_at" timestamptz
 );
 
 CREATE TABLE "workout_sets" (
@@ -107,7 +110,10 @@ CREATE TABLE "routine_workout_sets" (
   "unit" varchar(10),
   "repetitions" integer,
   "order_index" integer,
-  "rest_time" integer
+  "rest_time" integer,
+  "created_at" timestamptz NOT NULL,
+  "updated_at" timestamptz,
+  "deleted_at" timestamptz
 );
 
 ALTER TABLE "routines" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;

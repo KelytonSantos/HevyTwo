@@ -119,6 +119,11 @@ public class RoutineService {
 
     }
 
+    public List<RoutineExecution> getAllExecutionsByUserId(UUID userId, Instant start, Instant end) {
+        return routineExecutionRepository.findAllRoutineExecutionByUserId(userId, start, end);
+
+    }
+
 }
 
 // o peso total do routine execution é atualizado apartir de cada finalização de
