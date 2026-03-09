@@ -18,6 +18,8 @@ import com.hevy.demo.controller.dtos.RoutineResponse;
 import com.hevy.demo.models.Routine;
 import com.hevy.demo.models.RoutineExecution;
 import com.hevy.demo.models.User;
+import com.hevy.demo.models.WorkoutLog;
+import com.hevy.demo.models.WorkoutSet;
 import com.hevy.demo.models.enums.StatusType;
 import com.hevy.demo.repository.RoutineExecutionRepository;
 import com.hevy.demo.repository.RoutineRepository;
@@ -95,6 +97,9 @@ public class RoutineService {
     }
 
     public RoutineExecution finishRoutineExecution(UUID routineExecutionId) {
+        List<WorkoutLog> logs = workoutService.getWorkoutLog(routineExecutionId);
+        List<UUID> logsId = logs.stream().map(l -> l.getId()).toList();
+
         RoutineExecution routineExecution = routineExecutionRepository.findById(routineExecutionId).orElseThrow(
                 () -> new ResourceNotFoundException(
                         "Routine Execution id" + routineExecutionId.toString() + " not found"));
@@ -105,6 +110,15 @@ public class RoutineService {
         routineExecution.setTotalTimeSeconds((int) seconds);
 
         routineExecution.setStatus(StatusType.COMPLETED);
+
+        List<WorkoutSet> workoutSets = workoutService.getAllWorkoutSets(logsId);
+
+        BigDecimal volume = workoutSets.stream()
+                .filter(w -> w.getMeasure() != null && w.getRepetitions() != null)
+                .map(w -> w.getMeasure().multiply(BigDecimal.valueOf(w.getRepetitions())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        routineExecution.setTotalWeightVolume(volume);
 
         return routineExecutionRepository.save(routineExecution);
     }

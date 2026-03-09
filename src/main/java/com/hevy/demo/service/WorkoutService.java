@@ -158,6 +158,11 @@ public class WorkoutService {
         return workoutSetRepository.findAllByWorkoutLogId(log.getId());
     }
 
+    public List<WorkoutSet> getAllWorkoutSets(List<UUID> workoutLogIds) {
+
+        return workoutSetRepository.findAllByWorkoutLogId(workoutLogIds, StatusType.COMPLETED);
+    }
+
     public List<WorkoutLog> findAllByMonth(List<UUID> routineExecutionId) {
         if (routineExecutionId.isEmpty()) {
             throw new ResourceIsEmptyExeception("List of Routine Execution id is empty");

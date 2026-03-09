@@ -1,5 +1,6 @@
 package com.hevy.demo.service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public class RoutineWorkoutService {
         set.setRepetitions(request.repetitions());
         set.setOrderIndex(request.orderIndex());
         set.setRestTime(request.restTime());
-
+        set.setCreatedAt(Instant.now());
         return routineWorkoutSetRepository.save(set);
     }
 
@@ -113,10 +114,12 @@ public class RoutineWorkoutService {
     }
 
     public void deleteRoutineWorkoutSet(UUID routineWorkoutSetId) {
-        if (!routineWorkoutSetRepository.existsById(routineWorkoutSetId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "RoutineWorkoutSet not found");
-        }
-        routineWorkoutSetRepository.deleteById(routineWorkoutSetId);
+        RoutineWorkoutSet routineWorkoutSet = routineWorkoutSetRepository.findById(routineWorkoutSetId)
+                .orElseThrow(() -> new ResourceNotFoundException("Routine Workout Set not found"));
+
+        routineWorkoutSet.setDeletedAt(Instant.now());
+
+        routineWorkoutSetRepository.save(routineWorkoutSet);
     }
 
 }

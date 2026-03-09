@@ -15,6 +15,10 @@ public interface WorkoutSetRepository extends JpaRepository<WorkoutSet, UUID> {
     @Query("SELECT ws FROM WorkoutSet ws JOIN FETCH ws.workoutLog wl WHERE wl.id = :workoutLogId")
     List<WorkoutSet> findAllByWorkoutLogId(@Param("workoutLogId") UUID workoutLogId);
 
+    @Query("SELECT ws FROM WorkoutSet ws JOIN FETCH ws.workoutLog wl WHERE wl.id IN :workoutLogIds AND ws.status = :status")
+    List<WorkoutSet> findAllByWorkoutLogId(@Param("workoutLogIds") List<UUID> workoutLogIds,
+            @Param("status") StatusType status);
+
     @Query("SELECT ws FROM WorkoutSet ws JOIN FETCH ws.workoutLog wl WHERE wl.id = :workoutLogId AND ws.status = :status")
     List<WorkoutSet> findAllByWorkoutLogIdAndStatus(@Param("workoutLogId") UUID workoutLogId,
             @Param("status") StatusType status);
