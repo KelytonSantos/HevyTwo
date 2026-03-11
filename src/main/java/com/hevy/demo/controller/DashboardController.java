@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hevy.demo.controller.dtos.DashboardResponse;
+import com.hevy.demo.controller.dtos.GraphTimeOverMonthResponse;
 import com.hevy.demo.models.User;
 import com.hevy.demo.service.DashboardService;
 
@@ -23,6 +24,15 @@ public class DashboardController {
         User user = (User) auth.getPrincipal();
 
         return ResponseEntity.ok().body(dashboardService.getMyDash(user));
+    }
+
+    // hora = y,
+    // dias = x
+
+    @GetMapping("/graph")
+    public ResponseEntity<GraphTimeOverMonthResponse> getGraphTimeOverMonth(Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        return ResponseEntity.ok().body(dashboardService.graph(user));
     }
 
 }
