@@ -125,8 +125,6 @@ demo/
 
 ## Banco de dados
 
-> Salve a imagem do DER como `docs/der.png` e atualize o caminho abaixo.
-
 ![DER](docs/der.png)
 
 ### Resumo das tabelas
