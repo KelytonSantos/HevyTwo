@@ -246,11 +246,6 @@ Cria um novo usuario e retorna o JWT para uso imediato.
 }
 ```
 
-**Erros**
-| Status | Situacao |
-|---|---|
-| `500` | Email ou username ja cadastrado (constraint do banco) |
-
 ---
 
 #### POST /auth/login
@@ -267,11 +262,6 @@ Autentica um usuario existente.
 ```
 
 **Response `200 OK`** — mesmo schema do register.
-
-**Erros**
-| Status | Situacao |
-|---|---|
-| `500` | Email nao encontrado ou senha incorreta |
 
 ---
 
