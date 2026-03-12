@@ -2,7 +2,7 @@
 
 API REST para gerenciamento de treinos, inspirada no aplicativo Hevy. Permite criar rotinas de exercícios, executar treinos, registrar séries e acompanhar métricas mensais de desempenho.
 
----
+Link para o repositório do app: <https://github.com/KelytonSantos/HevyTwo-Front>
 
 ## Sumario
 
@@ -417,11 +417,6 @@ Lista exercicios da ExerciseDB com paginacao por offset. Retorna 2 exercicios po
   }
 ]
 ```
-
-**Erros**
-| Status | Situacao |
-|---|---|
-| `200` com lista vazia | ExerciseDB retornou 429 (rate limit) |
 
 ---
 
