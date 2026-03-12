@@ -4,6 +4,8 @@ API REST para gerenciamento de treinos, inspirada no aplicativo Hevy. Permite cr
 
 Link para o repositório do app: <https://github.com/KelytonSantos/HevyTwo-Front>
 
+Link para o video de demonstração do App: <https://youtube.com/shorts/JAzCuxpWMTo>
+
 ## Sumario
 
 1. [Tecnologias](#tecnologias)
