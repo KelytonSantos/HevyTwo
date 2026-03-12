@@ -174,8 +174,6 @@ spring.datasource.password=1234
 api.security.token.secret=HeavyHeavenHevy
 ```
 
-> Em producao, substitua o `token.secret` por um valor seguro e gerencie as credenciais via variaveis de ambiente.
-
 ### 3. Buildar e rodar a aplicacao
 
 ```bash
